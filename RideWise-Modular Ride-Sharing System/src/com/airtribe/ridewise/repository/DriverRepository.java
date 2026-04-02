@@ -30,4 +30,12 @@ public class DriverRepository {
     public void deleteDriverById(String id){
         drivers.removeIf(d -> d.getId().equalsIgnoreCase(id));
     }
+
+    public void updateDriver(Driver driver){
+        for (int i = 0; i < drivers.size(); i++) {
+            if(drivers.get(i).getId().equals(driver.getId())){
+                drivers.set(i, driver);
+            }
+        }
+    }
 }

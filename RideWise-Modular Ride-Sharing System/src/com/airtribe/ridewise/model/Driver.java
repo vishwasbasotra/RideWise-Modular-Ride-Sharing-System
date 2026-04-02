@@ -1,24 +1,25 @@
 package com.airtribe.ridewise.model;
 
-public class Driver {
-    private String id;
-    private String name;
-    private String currentLocation;
-    private boolean available;
+import com.airtribe.ridewise.enums.Availability;
+import com.airtribe.ridewise.util.IdGenerator;
 
-    public Driver(String id, String name, String currentLocation, boolean available) {
-        this.id = id;
-        this.name = name;
-        this.currentLocation = currentLocation;
-        this.available = true;
+import java.util.UUID;
+
+public class Driver {
+    private final String id;
+    private final String name;
+    private String currentLocation;
+    private Availability availability;
+
+    public Driver(DriverBuilder driverBuilder) {
+        this.id = IdGenerator.generateDriverId();
+        this.name = driverBuilder.name;
+        this.currentLocation = driverBuilder.currentLocation;
+        this.availability = driverBuilder.availability;
     }
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getCurrentLocation() {
@@ -29,11 +30,42 @@ public class Driver {
         this.currentLocation = currentLocation;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public void setAvailable() {
+        this.availability =  Availability.AVAILABLE;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setUnavailable() {
+        this.availability =  Availability.UNAVAILABLE;
     }
+
+
+    public void setAvailable(Availability available) {
+        this.availability = available;
+    }
+
+    public static class DriverBuilder {
+        private String name;
+        private String currentLocation;
+        private Availability availability = Availability.AVAILABLE;
+
+        public DriverBuilder name(String name){
+            this.name = name;
+            return this;
+        }
+
+        public DriverBuilder location(String location){
+            this.currentLocation = location;
+            return this;
+        }
+
+        public DriverBuilder availability(Availability availability){
+            this.availability = availability;
+            return this;
+        }
+
+        public Driver buildDriver(){
+            return new Driver(this);
+        }
+    }
+
 }

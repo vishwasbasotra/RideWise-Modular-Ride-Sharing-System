@@ -1,22 +1,20 @@
 package com.airtribe.ridewise.model;
 
+import com.airtribe.ridewise.util.IdGenerator;
+
 public class Rider {
-    private String id;
-    private String name;
+    private final String id;
+    private final String name;
     private String location;
 
-    public Rider(String id, String name, String location) {
-        this.id = id;
+    public Rider(String name, String location) {
+        this.id = IdGenerator.generateRiderId();
         this.name = name;
         this.location = location;
     }
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLocation() {
