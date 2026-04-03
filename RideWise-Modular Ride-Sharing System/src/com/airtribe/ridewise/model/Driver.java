@@ -8,30 +8,47 @@ import java.util.UUID;
 public class Driver {
     private final String id;
     private final String name;
-    private String currentLocation;
+    private String location;
     private Availability availability;
+    private int totalRides = 0;
 
     public Driver(DriverBuilder driverBuilder) {
         this.id = IdGenerator.generateDriverId();
         this.name = driverBuilder.name;
-        this.currentLocation = driverBuilder.currentLocation;
+        this.location = driverBuilder.location;
         this.availability = driverBuilder.availability;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getTotalRides() {
+        return totalRides;
+    }
+
+    public void incrementRides(){
+        this.totalRides++;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getCurrentLocation() {
-        return currentLocation;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCurrentLocation(String currentLocation) {
-        this.currentLocation = currentLocation;
+    public void setLocation(String currentLocation) {
+        this.location = currentLocation;
     }
 
     public void setAvailable() {
         this.availability =  Availability.AVAILABLE;
+    }
+
+    public Availability getAvailability() {
+        return availability;
     }
 
     public void setUnavailable() {
@@ -45,7 +62,7 @@ public class Driver {
 
     public static class DriverBuilder {
         private String name;
-        private String currentLocation;
+        private String location;
         private Availability availability = Availability.AVAILABLE;
 
         public DriverBuilder name(String name){
@@ -54,7 +71,7 @@ public class Driver {
         }
 
         public DriverBuilder location(String location){
-            this.currentLocation = location;
+            this.location = location;
             return this;
         }
 

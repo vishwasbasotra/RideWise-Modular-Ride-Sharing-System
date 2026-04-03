@@ -7,10 +7,10 @@ public class Rider {
     private final String name;
     private String location;
 
-    public Rider(String name, String location) {
+    private Rider(RiderBuilder riderBuilder) {
         this.id = IdGenerator.generateRiderId();
-        this.name = name;
-        this.location = location;
+        this.name = riderBuilder.name;
+        this.location = riderBuilder.location;
     }
 
     public String getId() {
@@ -23,5 +23,23 @@ public class Rider {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public static class RiderBuilder {
+        private String name;
+        private String location;
+
+        public RiderBuilder name(String name){
+            this.name = name;
+            return this;
+        }
+        public RiderBuilder location(String location){
+            this.location = location;
+            return this;
+        }
+
+        public Rider buildRider(){
+            return new Rider(this);
+        }
     }
 }

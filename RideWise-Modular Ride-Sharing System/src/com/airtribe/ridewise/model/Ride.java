@@ -1,20 +1,30 @@
 package com.airtribe.ridewise.model;
 
 import com.airtribe.ridewise.enums.RideStatus;
+import com.airtribe.ridewise.util.IdGenerator;
 
 public class Ride {
     private String id;
     private Rider rider;
     private Driver driver;
-    private long distance;
+    private double distance;
     private RideStatus rideStatus;
+    private double fare;
 
-    public Ride(String id, Rider rider, Driver driver, long distance, RideStatus rideStatus) {
-        this.id = id;
+    public Ride(Rider rider, Driver driver, double distance) {
+        this.id = IdGenerator.generateRideId();
         this.rider = rider;
         this.driver = driver;
         this.distance = distance;
         this.rideStatus = RideStatus.REQUESTED;
+    }
+
+    public double getFare() {
+        return fare;
+    }
+
+    public void setFare(double fare) {
+        this.fare = fare;
     }
 
     public String getId() {
@@ -41,11 +51,11 @@ public class Ride {
         this.driver = driver;
     }
 
-    public long getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(long distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 

@@ -1,5 +1,7 @@
 package com.airtribe.ridewise.repository;
 
+import com.airtribe.ridewise.enums.Availability;
+import com.airtribe.ridewise.exception.NoDriverAvailableException;
 import com.airtribe.ridewise.model.Driver;
 
 import java.util.ArrayList;
@@ -37,5 +39,15 @@ public class DriverRepository {
                 drivers.set(i, driver);
             }
         }
+    }
+
+    public List<Driver> availableDriversByLocation(String currentLocation){
+        List<Driver> filteredDrivers = drivers.stream().filter(d -> d.getLocation().equalsIgnoreCase(currentLocation))
+                .filter(d -> d.getAvailability().equals(Availability.AVAILABLE))
+                .toList();
+        if(filteredDrivers.isEmpty()){
+            throw new NoDriverAvailableException("No Driver is available at the moment for this location");
+        }
+        return filteredDrivers;
     }
 }

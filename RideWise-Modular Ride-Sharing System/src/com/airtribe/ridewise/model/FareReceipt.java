@@ -1,16 +1,20 @@
 package com.airtribe.ridewise.model;
 
+import com.airtribe.ridewise.util.IdGenerator;
+
 import java.time.LocalDateTime;
 
 public class FareReceipt {
+    private String receiptId;
     private String rideId;
     private double amount;
-    private LocalDateTime generatedAr;
+    private LocalDateTime generatedAt;
 
-    public FareReceipt(String rideId, double amount, LocalDateTime generatedAr) {
+    public FareReceipt(double amount, String rideId) {
+        this.receiptId = IdGenerator.generateReceiptId();
         this.rideId = rideId;
         this.amount = amount;
-        this.generatedAr = generatedAr;
+        this.generatedAt = java.time.LocalDateTime.now();
     }
 
     public double getAmount() {
@@ -21,11 +25,8 @@ public class FareReceipt {
         this.amount = amount;
     }
 
-    public LocalDateTime getGeneratedAr() {
-        return generatedAr;
+    public LocalDateTime getGeneratedAt() {
+        return generatedAt;
     }
 
-    public void setGeneratedAr(LocalDateTime generatedAr) {
-        this.generatedAr = generatedAr;
-    }
 }
