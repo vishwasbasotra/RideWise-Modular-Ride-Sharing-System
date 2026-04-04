@@ -1,6 +1,7 @@
 package com.airtribe.ridewise.model;
 
 import com.airtribe.ridewise.enums.Availability;
+import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.util.IdGenerator;
 
 import java.util.UUID;
@@ -11,12 +12,18 @@ public class Driver {
     private String location;
     private Availability availability;
     private int totalRides = 0;
+    private VehicleType vehicleType;
 
     public Driver(DriverBuilder driverBuilder) {
         this.id = IdGenerator.generateDriverId();
         this.name = driverBuilder.name;
         this.location = driverBuilder.location;
         this.availability = driverBuilder.availability;
+        this.vehicleType = driverBuilder.vehicleType;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
     }
 
     public String getName() {
@@ -60,9 +67,16 @@ public class Driver {
         this.availability = available;
     }
 
+    public void display() {
+        System.out.println("Driver Name: "+name);
+        String available = (availability.equals(Availability.AVAILABLE)) ? "Yes" : "No";
+        System.out.println("Availability: "+ available+"\n");
+    }
+
     public static class DriverBuilder {
         private String name;
         private String location;
+        private VehicleType vehicleType = VehicleType.CAR; // Default
         private Availability availability = Availability.AVAILABLE;
 
         public DriverBuilder name(String name){
@@ -77,6 +91,11 @@ public class Driver {
 
         public DriverBuilder availability(Availability availability){
             this.availability = availability;
+            return this;
+        }
+
+        public DriverBuilder vehicleType(VehicleType type) {
+            this.vehicleType = type;
             return this;
         }
 

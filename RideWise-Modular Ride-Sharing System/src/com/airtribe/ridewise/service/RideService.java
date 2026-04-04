@@ -1,6 +1,7 @@
 package com.airtribe.ridewise.service;
 
 import com.airtribe.ridewise.enums.RideStatus;
+import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.model.Driver;
 import com.airtribe.ridewise.model.FareReceipt;
 import com.airtribe.ridewise.model.Ride;
@@ -26,9 +27,11 @@ public class RideService {
         this.sc = new Scanner(System.in);
     }
 
-    public Ride requestRide(RideMatchingStrategy rideMatchingStrategy, FareStrategy fareStrategy, String riderId, double distance){
+    public Ride requestRide(RideMatchingStrategy rideMatchingStrategy, FareStrategy fareStrategy,
+                            String riderId, double distance,
+                            VehicleType vehicleType){
         Rider rider = riderRepository.getRiderById(riderId);
-        Driver driver = assignDriver(rideMatchingStrategy, rider);
+        Driver driver = rideMatchingStrategy.findDriver(rider, driverRepository.getDrivers(), vehicleType);
 
         Ride ride = new Ride(rider, driver, distance);
 
@@ -55,13 +58,13 @@ public class RideService {
         ride.getDriver().setAvailable();
         ride.getDriver().incrementRides();
 
-        System.out.println("Ride "+ride.getId()+" is completed. Driver "+
-                ride.getDriver().getName()+" now has "+
-                ride.getDriver().getTotalRides()+" total rides.");
+        // REMOVE THIS LINE: ridesRepository.addRides(ride);
+
+        System.out.println("Ride "+ride.getId()+" is completed.");
         return new FareReceipt(ride.getFare(), ride.getId());
     }
 
-    public Driver assignDriver(RideMatchingStrategy rideMatchingStrategy, Rider rider){
-        return rideMatchingStrategy.findDriver(rider, driverRepository.getDrivers());
+    public Driver assignDriver(RideMatchingStrategy rideMatchingStrategy, Rider rider, VehicleType requestedType){
+        return rideMatchingStrategy.findDriver(rider, driverRepository.getDrivers(), requestedType);
     }
 }

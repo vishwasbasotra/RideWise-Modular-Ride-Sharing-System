@@ -50,4 +50,14 @@ public class DriverRepository {
         }
         return filteredDrivers;
     }
+
+    public List<Driver> availableDrivers(){
+        List<Driver> filteredDrivers = drivers.stream()
+                .filter(d -> d.getAvailability().equals(Availability.AVAILABLE))
+                .toList();
+        if(filteredDrivers.isEmpty()){
+            throw new NoDriverAvailableException("No Driver is available at the moment.");
+        }
+        return filteredDrivers;
+    }
 }

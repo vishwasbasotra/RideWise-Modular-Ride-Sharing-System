@@ -13,6 +13,10 @@ public class Rider {
         this.location = riderBuilder.location;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getId() {
         return id;
     }
@@ -23,6 +27,11 @@ public class Rider {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void display() {
+        System.out.println("Rider Name: "+ name);
+        System.out.println("Location: "+location+"\n");
     }
 
     public static class RiderBuilder {

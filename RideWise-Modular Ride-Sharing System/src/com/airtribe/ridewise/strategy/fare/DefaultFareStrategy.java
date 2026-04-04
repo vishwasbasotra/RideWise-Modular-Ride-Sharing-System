@@ -6,6 +6,7 @@ public class DefaultFareStrategy implements FareStrategy{
     private static final double RATE_PER_KM = 10.0;
     @Override
     public double calculateFare(Ride ride) {
-        return ride.getDistance()*RATE_PER_KM;
+        double vehicleMultiplier = ride.getDriver().getVehicleType().getMultiplier();
+        return ride.getDistance() * RATE_PER_KM * vehicleMultiplier;
     }
 }

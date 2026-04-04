@@ -2,6 +2,7 @@ package com.airtribe.ridewise.service;
 
 import com.airtribe.ridewise.enums.Availability;
 import com.airtribe.ridewise.model.Driver;
+import com.airtribe.ridewise.model.Rider;
 import com.airtribe.ridewise.repository.DriverRepository;
 import com.airtribe.ridewise.util.InputValidator;
 
@@ -17,6 +18,30 @@ public class DriverService {
         this.sc = new Scanner(System.in);
     }
 
+    public void driverManagement(int option) {
+        switch (option){
+            case 1:
+                for (int i = 0; i < 50; i++) System.out.println(); //Print 50 new lines
+                registerNewDriver();
+                break;
+            case 2:
+                for (int i = 0; i < 50; i++) System.out.println(); //Print 50 new lines
+                for(Driver driver: driverRepository.getDrivers()){
+                    driver.display();
+                }
+                break;
+            case 3:
+                for (int i = 0; i < 50; i++) System.out.println(); //Print 50 new lines
+                System.out.print("Enter Driver Id To Search(Driver ids look like this 'DRIVER-1'): ");
+                String driverId = sc.next();
+                driverRepository.getDriverById(driverId).display();
+                break;
+            case 4:
+                return; // Returns to Main menu loop
+
+        }
+    }
+
     public Driver registerNewDriver(){
         System.out.println("===========Registering a New Driver==========");
         System.out.print("Enter Full Name: ");
@@ -28,7 +53,11 @@ public class DriverService {
         System.out.print("Availability: ");
         Availability available = InputValidator.validateAvailability(sc.next());
 
-        return new Driver.DriverBuilder().name(name).location(location).availability(available).buildDriver();
+        Driver driver = new Driver.DriverBuilder().name(name).location(location).availability(available).buildDriver();
+        driverRepository.addDriver(driver);
+        System.out.println("Driver registered with ID: " + driver.getId());
+
+        return driver;
     }
 
     public void updateDriverAvailability(String id){
